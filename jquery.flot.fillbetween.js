@@ -29,7 +29,9 @@ plugin, possibly some code could be shared.
 
 (function ($) {
     var options = {
-        series: { fillBetween: null } // or number
+        series: {
+            fillBetween: null
+        } // or number
     };
     
     function init(plot) {
@@ -61,16 +63,16 @@ plugin, possibly some code could be shared.
                 return;
 
             var ps = datapoints.pointsize,
-                points = datapoints.points,
-                otherps = other.datapoints.pointsize,
-                otherpoints = other.datapoints.points,
-                newpoints = [],
-                px, py, intery, qx, qy, bottom,
-                withlines = s.lines.show,
-                withbottom = ps > 2 && datapoints.format[2].y,
-                withsteps = withlines && s.lines.steps,
-                fromgap = true,
-                i = 0, j = 0, l;
+            points = datapoints.points,
+            otherps = other.datapoints.pointsize,
+            otherpoints = other.datapoints.points,
+            newpoints = [],
+            px, py, intery, qx, qy, bottom,
+            withlines = s.lines.show,
+            withbottom = ps > 2 && datapoints.format[2].y,
+            withsteps = withlines && s.lines.steps,
+            fromgap = true,
+            i = 0, j = 0, l;
 
             while (true) {
                 if (i >= points.length)

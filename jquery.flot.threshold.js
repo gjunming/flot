@@ -38,15 +38,21 @@ events.
 
 (function ($) {
     var options = {
-        series: { threshold: null } // or { below: number, color: color spec}
+        series: {
+            threshold: null
+        } // or { below: number, color: color spec}
     };
     
     function init(plot) {
         function thresholdData(plot, s, datapoints, below, color) {
             var ps = datapoints.pointsize, i, x, y, p, prevp,
-                thresholded = $.extend({}, s); // note: shallow copy
+            thresholded = $.extend({}, s); // note: shallow copy
 
-            thresholded.datapoints = { points: [], pointsize: ps, format: datapoints.format };
+            thresholded.datapoints = {
+                points: [], 
+                pointsize: ps, 
+                format: datapoints.format
+            };
             thresholded.label = null;
             thresholded.color = color;
             thresholded.threshold = null;
@@ -54,7 +60,7 @@ events.
             thresholded.data = [];
  
             var origpoints = datapoints.points,
-                addCrossingPoints = s.lines.show;
+            addCrossingPoints = s.lines.show;
 
             threspoints = [];
             newpoints = [];
@@ -99,7 +105,7 @@ events.
             if (thresholded.datapoints.points.length > 0)
                 plot.getData().push(thresholded);
                 
-            // FIXME: there are probably some edge cases left in bars
+        // FIXME: there are probably some edge cases left in bars
         }
         
         function processThresholds(plot, s, datapoints) {

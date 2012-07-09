@@ -47,21 +47,51 @@ for details.
             
             if (escape) {
                 switch (c) {
-                case 'a': c = "" + dayNames[d.getDay()]; break;
-                case 'b': c = "" + monthNames[d.getMonth()]; break;
-                case 'd': c = leftPad(d.getDate()); break;
-                case 'e': c = leftPad(d.getDate(), " "); break;
-                case 'H': c = leftPad(hours); break;
-                case 'I': c = leftPad(hours12); break;
-                case 'l': c = leftPad(hours12, " "); break;
-                case 'm': c = leftPad(d.getMonth() + 1); break;
-                case 'M': c = leftPad(d.getMinutes()); break;
-                case 'S': c = leftPad(d.getSeconds()); break;
-                case 'y': c = leftPad(d.getFullYear() % 100); break;
-                case 'Y': c = "" + d.getFullYear(); break;
-                case 'p': c = (isAM) ? ("" + "am") : ("" + "pm"); break;
-                case 'P': c = (isAM) ? ("" + "AM") : ("" + "PM"); break;
-                case 'w': c = "" + d.getDay(); break;
+                    case 'a':
+                        c = "" + dayNames[d.getDay()];
+                        break;
+                    case 'b':
+                        c = "" + monthNames[d.getMonth()];
+                        break;
+                    case 'd':
+                        c = leftPad(d.getDate());
+                        break;
+                    case 'e':
+                        c = leftPad(d.getDate(), " ");
+                        break;
+                    case 'H':
+                        c = leftPad(hours);
+                        break;
+                    case 'I':
+                        c = leftPad(hours12);
+                        break;
+                    case 'l':
+                        c = leftPad(hours12, " ");
+                        break;
+                    case 'm':
+                        c = leftPad(d.getMonth() + 1);
+                        break;
+                    case 'M':
+                        c = leftPad(d.getMinutes());
+                        break;
+                    case 'S':
+                        c = leftPad(d.getSeconds());
+                        break;
+                    case 'y':
+                        c = leftPad(d.getFullYear() % 100);
+                        break;
+                    case 'Y':
+                        c = "" + d.getFullYear();
+                        break;
+                    case 'p':
+                        c = (isAM) ? ("" + "am") : ("" + "pm");
+                        break;
+                    case 'P':
+                        c = (isAM) ? ("" + "AM") : ("" + "PM");
+                        break;
+                    case 'w':
+                        c = "" + d.getDay();
+                        break;
                 }
                 r.push(c);
                 escape = false;
@@ -82,7 +112,7 @@ for details.
     // versions of the accessor methods.
     function makeUtcWrapper(d) {
         function addProxyMethod(sourceObj, sourceMethod, targetObj,
-                                targetMethod) {
+            targetMethod) {
             sourceObj[sourceMethod] = function() {
                 return targetObj[targetMethod].apply(targetObj, arguments);
             };
@@ -135,16 +165,16 @@ for details.
     // the allowed tick sizes, after 1 year we use
     // an integer algorithm
     var spec = [
-        [1, "second"], [2, "second"], [5, "second"], [10, "second"],
-        [30, "second"], 
-        [1, "minute"], [2, "minute"], [5, "minute"], [10, "minute"],
-        [30, "minute"], 
-        [1, "hour"], [2, "hour"], [4, "hour"],
-        [8, "hour"], [12, "hour"],
-        [1, "day"], [2, "day"], [3, "day"],
-        [0.25, "month"], [0.5, "month"], [1, "month"],
-        [2, "month"], [3, "month"], [6, "month"],
-        [1, "year"]
+    [1, "second"], [2, "second"], [5, "second"], [10, "second"],
+    [30, "second"], 
+    [1, "minute"], [2, "minute"], [5, "minute"], [10, "minute"],
+    [30, "minute"], 
+    [1, "hour"], [2, "hour"], [4, "hour"],
+    [8, "hour"], [12, "hour"],
+    [1, "day"], [2, "day"], [3, "day"],
+    [0.25, "month"], [0.5, "month"], [1, "month"],
+    [2, "month"], [3, "month"], [6, "month"],
+    [1, "year"]
     ];
 
     function init(plot) {
@@ -154,8 +184,8 @@ for details.
                 if (opts.mode == "time") {
                     axis.tickGenerator = function(axis) {
                         var ticks = [],
-                            d = dateGenerator(axis.min, opts),
-                            minSize = 0;
+                        d = dateGenerator(axis.min, opts),
+                        minSize = 0;
 
                         if (opts.minTickSize != null) {
                             if (typeof opts.tickSize == "number")
@@ -166,8 +196,8 @@ for details.
 
                         for (var i = 0; i < spec.length - 1; ++i)
                             if (axis.delta < (spec[i][0] * timeUnitSize[spec[i][1]]
-                                              + spec[i + 1][0] * timeUnitSize[spec[i + 1][1]]) / 2
-                                && spec[i][0] * timeUnitSize[spec[i][1]] >= minSize)
+                                + spec[i + 1][0] * timeUnitSize[spec[i + 1][1]]) / 2
+                            && spec[i][0] * timeUnitSize[spec[i][1]] >= minSize)
                                 break;
                         var size = spec[i][0];
                         var unit = spec[i][1];

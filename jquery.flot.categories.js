@@ -59,7 +59,7 @@ plot.getAxes().xaxis.categories.
         // for later processing
 
         var xCategories = series.xaxis.options.mode == "categories",
-            yCategories = series.yaxis.options.mode == "categories";
+        yCategories = series.yaxis.options.mode == "categories";
         
         if (!(xCategories || yCategories))
             return;
@@ -70,11 +70,24 @@ plot.getAxes().xaxis.categories.
             // FIXME: auto-detection should really not be defined here
             var s = series;
             format = [];
-            format.push({ x: true, number: true, required: true });
-            format.push({ y: true, number: true, required: true });
+            format.push({
+                x: true, 
+                number: true, 
+                required: true
+            });
+            format.push({
+                y: true, 
+                number: true, 
+                required: true
+            });
 
             if (s.bars.show || (s.lines.show && s.lines.fill)) {
-                format.push({ y: true, number: true, required: false, defaultValue: 0 });
+                format.push({
+                    y: true, 
+                    number: true, 
+                    required: false, 
+                    defaultValue: 0
+                });
                 if (s.bars.horizontal) {
                     delete format[format.length - 1].y;
                     format[format.length - 1].x = true;
@@ -111,7 +124,9 @@ plot.getAxes().xaxis.categories.
                 res.push([v, label]);
         }
 
-        res.sort(function (a, b) { return a[0] - b[0]; });
+        res.sort(function (a, b) {
+            return a[0] - b[0];
+        });
 
         return res;
     }
@@ -145,10 +160,10 @@ plot.getAxes().xaxis.categories.
     function transformPointsOnAxis(datapoints, axis, categories) {
         // go through the points, transforming them
         var points = datapoints.points,
-            ps = datapoints.pointsize,
-            format = datapoints.format,
-            formatColumn = axis.charAt(0),
-            index = getNextIndex(categories);
+        ps = datapoints.pointsize,
+        format = datapoints.format,
+        formatColumn = axis.charAt(0),
+        index = getNextIndex(categories);
 
         for (var i = 0; i < points.length; i += ps) {
             if (points[i] == null)

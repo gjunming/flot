@@ -119,14 +119,14 @@ images (like Google Maps).
             return;
         
         var points = series.datapoints.points,
-            ps = series.datapoints.pointsize;
+        ps = series.datapoints.pointsize;
         
         for (var i = 0; i < points.length; i += ps) {
             var img = points[i],
-                x1 = points[i + 1], y1 = points[i + 2],
-                x2 = points[i + 3], y2 = points[i + 4],
-                xaxis = series.xaxis, yaxis = series.yaxis,
-                tmp;
+            x1 = points[i + 1], y1 = points[i + 2],
+            x2 = points[i + 3], y2 = points[i + 4],
+            xaxis = series.xaxis, yaxis = series.yaxis,
+            tmp;
 
             // actually we should check img.complete, but it
             // appears to be a somewhat unreliable indicator in
@@ -203,9 +203,9 @@ images (like Google Maps).
             tmp = ctx.globalAlpha;
             ctx.globalAlpha *= series.images.alpha;
             ctx.drawImage(img,
-                          sx1, sy1, sx2 - sx1, sy2 - sy1,
-                          x1 + plotOffset.left, y1 + plotOffset.top,
-                          x2 - x1, y2 - y1);
+                sx1, sy1, sx2 - sx1, sy2 - sy1,
+                x1 + plotOffset.left, y1 + plotOffset.top,
+                x2 - x1, y2 - y1);
             ctx.globalAlpha = tmp;
         }
     }
@@ -216,11 +216,29 @@ images (like Google Maps).
 
         // format is Image, x1, y1, x2, y2 (opposite corners)
         datapoints.format = [
-            { required: true },
-            { x: true, number: true, required: true },
-            { y: true, number: true, required: true },
-            { x: true, number: true, required: true },
-            { y: true, number: true, required: true }
+        {
+            required: true
+        },
+{
+            x: true, 
+            number: true, 
+            required: true
+        },
+{
+            y: true, 
+            number: true, 
+            required: true
+        },
+{
+            x: true, 
+            number: true, 
+            required: true
+        },
+{
+            y: true, 
+            number: true, 
+            required: true
+        }
         ];
     }
     

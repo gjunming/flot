@@ -69,10 +69,17 @@ The plugin allso adds the following methods to the plot object:
 (function ($) {
     function init(plot) {
         var selection = {
-                first: { x: -1, y: -1}, second: { x: -1, y: -1},
-                show: false,
-                active: false
-            };
+            first: {
+                x: -1, 
+                y: -1
+            }, 
+            second: {
+                x: -1, 
+                y: -1
+            },
+            show: false,
+            active: false
+        };
 
         // FIXME: The drag handling implemented here should be
         // abstracted out, there's some similar code from a library in
@@ -101,11 +108,15 @@ The plugin allso adds the following methods to the plot object:
             // prevent text selection and drag in old-school browsers
             if (document.onselectstart !== undefined && savedhandlers.onselectstart == null) {
                 savedhandlers.onselectstart = document.onselectstart;
-                document.onselectstart = function () { return false; };
+                document.onselectstart = function () {
+                    return false;
+                };
             }
             if (document.ondrag !== undefined && savedhandlers.ondrag == null) {
                 savedhandlers.ondrag = document.ondrag;
-                document.ondrag = function () { return false; };
+                document.ondrag = function () {
+                    return false;
+                };
             }
 
             setSelectionPos(selection.first, e);
@@ -114,7 +125,9 @@ The plugin allso adds the following methods to the plot object:
 
             // this is a bit silly, but we have to use a closure to be
             // able to whack the same handler again
-            mouseUpHandler = function (e) { onMouseUp(e); };
+            mouseUpHandler = function (e) {
+                onMouseUp(e);
+            };
             
             $(document).one("mouseup", mouseUpHandler);
         }
@@ -151,7 +164,10 @@ The plugin allso adds the following methods to the plot object:
             $.each(plot.getAxes(), function (name, axis) {
                 if (axis.used) {
                     var p1 = axis.c2p(c1[axis.direction]), p2 = axis.c2p(c2[axis.direction]); 
-                    r[name] = { from: Math.min(p1, p2), to: Math.max(p1, p2) };
+                    r[name] = {
+                        from: Math.min(p1, p2), 
+                        to: Math.max(p1, p2)
+                    };
                 }
             });
             return r;
@@ -164,7 +180,12 @@ The plugin allso adds the following methods to the plot object:
 
             // backwards-compat stuff, to be removed in future
             if (r.xaxis && r.yaxis)
-                plot.getPlaceholder().trigger("selected", [ { x1: r.xaxis.from, y1: r.yaxis.from, x2: r.xaxis.to, y2: r.yaxis.to } ]);
+                plot.getPlaceholder().trigger("selected", [ {
+                    x1: r.xaxis.from, 
+                    y1: r.yaxis.from, 
+                    x2: r.xaxis.to, 
+                    y2: r.yaxis.to
+                } ]);
         }
 
         function clamp(min, value, max) {
@@ -239,7 +260,11 @@ The plugin allso adds the following methods to the plot object:
                 to = tmp;
             }
             
-            return { from: from, to: to, axis: axis };
+            return {
+                from: from, 
+                to: to, 
+                axis: axis
+            };
         }
         
         function setSelection(ranges, preventEvent) {
@@ -276,7 +301,7 @@ The plugin allso adds the following methods to the plot object:
         function selectionIsSane() {
             var minSize = 5;
             return Math.abs(selection.second.x - selection.first.x) >= minSize &&
-                Math.abs(selection.second.y - selection.first.y) >= minSize;
+            Math.abs(selection.second.y - selection.first.y) >= minSize;
         }
 
         plot.clearSelection = clearSelection;
@@ -309,9 +334,9 @@ The plugin allso adds the following methods to the plot object:
                 ctx.fillStyle = c.scale('a', 0.4).toString();
 
                 var x = Math.min(selection.first.x, selection.second.x),
-                    y = Math.min(selection.first.y, selection.second.y),
-                    w = Math.abs(selection.second.x - selection.first.x),
-                    h = Math.abs(selection.second.y - selection.first.y);
+                y = Math.min(selection.first.y, selection.second.y),
+                w = Math.abs(selection.second.x - selection.first.x),
+                h = Math.abs(selection.second.y - selection.first.y);
 
                 ctx.fillRect(x, y, w, h);
                 ctx.strokeRect(x, y, w, h);
