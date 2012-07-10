@@ -116,13 +116,19 @@ The plugin also adds four public methods:
             var offset = plot.offset();
             crosshair.x = Math.max(0, Math.min(e.pageX - offset.left, plot.width()));
             crosshair.y = Math.max(0, Math.min(e.pageY - offset.top, plot.height()));
+            
             plot.triggerRedrawOverlay();
         }
         
         plot.hooks.bindEvents.push(function (plot, eventHolder) {
             if (!plot.getOptions().crosshair.mode)
                 return;
-
+            
+            theThis = this;
+            theEventHolder = eventHolder;
+            eventHolder.bind("plothover", function (event, pos, item) {
+                console.log(item);
+            });
             eventHolder.mouseout(onMouseOut);
             eventHolder.mousemove(onMouseMove);
         });

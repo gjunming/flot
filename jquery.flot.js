@@ -234,7 +234,8 @@
                     lineWidth: 2, // in pixels
                     fill: true,
                     fillColor: "#ffffff",
-                    symbol: "circle" // or callback
+                    symbol: "circle", // or callback
+                    stickto:true//always selected nearest points
                 },
                 lines: {
                     // we don't put in show: false so we can see
@@ -2410,7 +2411,7 @@
         function findNearbyItem(mouseX, mouseY, seriesFilter) {
             var maxDistance = options.grid.mouseActiveRadius,
             smallestDistance = maxDistance * maxDistance + 1,
-            item = null, foundPoint = false, i, j;
+            item = null, foundPoint = false, i, j,minDx = -1;
 
             for (i = series.length - 1; i >= 0; --i) {
                 if (!seriesFilter(series[i]))
@@ -2434,29 +2435,43 @@
                     maxy = Number.MAX_VALUE;
                 
                 if (s.lines.show || s.points.show) {
+                    /**
+                     *get the item, we have two options
+                     *sticked = true as default, which means the hover always been on the point nearest by mouse position
+                     *sticked = false, just when mouse position when on(very near)
+                     */
                     for (j = 0; j < points.length; j += ps) {
                         var x = points[j], y = points[j + 1];
                         if (x == null)
                             continue;
                         
-                        // For points and lines, the cursor must be within a
-                        // certain distance to the data point
-                        if (x - mx > maxx || x - mx < -maxx ||
-                            y - my > maxy || y - my < -maxy)
-                            continue;
+                        var dx = Math.abs(axisx.p2c(x) - mouseX);
+                        //always get the point
+                        if(s.points.stickto){
+                            if (minDx == -1 || dx < minDx){
+                                minDx = dx;
+                                item = [i, j / ps];
+                            }
+                        //get nearby point
+                        }else{
+                            // For points and lines, the cursor must be within a
+                            // certain distance to the data point
+                            if (x - mx > maxx || x - mx < -maxx ||
+                                y - my > maxy || y - my < -maxy)
+                                continue;
 
-                        // We have to calculate distances in pixels, not in
-                        // data units, because the scales of the axes may be different
-                        var dx = Math.abs(axisx.p2c(x) - mouseX),
-                        dy = Math.abs(axisy.p2c(y) - mouseY),
-                        dist = dx * dx + dy * dy; // we save the sqrt
+                            // We have to calculate distances in pixels, not in
+                            // data units, because the scales of the axes may be different
+                            var dy = Math.abs(axisy.p2c(y) - mouseY),
+                            dist = dx * dx + dy * dy; // we save the sqrt
 
-                        // use <= to ensure last point takes precedence
-                        // (last generally means on top of)
-                        if (dist < smallestDistance) {
-                            smallestDistance = dist;
-                            item = [i, j / ps];
-                        }
+                            // use <= to ensure last point takes precedence
+                            // (last generally means on top of)
+                            if (dist < smallestDistance) {
+                                smallestDistance = dist;
+                                item = [i, j / ps];
+                            }
+                        }                       
                     }
                 }
                     
