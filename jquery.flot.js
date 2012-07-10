@@ -260,6 +260,7 @@
                 show: true,
                 aboveData: false,
                 color: "#545454", // primary color used for outline and labels
+                mode:"h",//"h":horizson,"v":vertical,"hv"
                 backgroundColor: null, // null for transparent, else color
                 borderColor: null, // set if different from the grid color
                 tickColor: null, // color for the ticks, e.g. "rgba(0,0,0,0.15)"
@@ -1720,7 +1721,7 @@
                         y = Math.floor(y) + 0.5;
                     }
 
-                    ctx.moveTo(x, y);
+                    ctx.moveTo(x, y);                   
                     ctx.lineTo(x + xoff, y + yoff);
                     ctx.stroke();
                 }
@@ -1739,18 +1740,26 @@
                         continue;
 
                     if (axis.direction == "x") {
-                        x = axis.p2c(v);
-                        yoff = t == "full" ? -plotHeight : t;
+                        if(options.grid.mode.indexOf("v") > -1){
+                            x = axis.p2c(v);
+                            yoff = t == "full" ? -plotHeight : t;
                         
-                        if (axis.position == "top")
-                            yoff = -yoff;
-                    }
-                    else {
-                        y = axis.p2c(v);
-                        xoff = t == "full" ? -plotWidth : t;
+                            if (axis.position == "top")
+                                yoff = -yoff;
+                        }else{
+                            continue;
+
+                        }                      
+                    } else {     
+                        if(options.grid.mode.indexOf("h") > -1){
+                            y = axis.p2c(v);
+                            xoff = t == "full" ? -plotWidth : t;
                         
-                        if (axis.position == "left")
-                            xoff = -xoff;
+                            if (axis.position == "left")
+                                xoff = -xoff;
+                        }else{
+                            continue;
+                        }                     
                     }
 
                     if (ctx.lineWidth == 1) {
@@ -1763,8 +1772,8 @@
                     ctx.moveTo(x, y);
                     ctx.lineTo(x + xoff, y + yoff);
                 }
-                
                 ctx.stroke();
+               
             }
             
             
